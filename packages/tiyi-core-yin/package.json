@@ -1,0 +1,24 @@
+{
+  "name": "tiyi-core-yin",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite build --watch --debug --minify false",
+    "build": "vite build --minify false",
+    "build:prod": "vite build --minify",
+    "release": "npm run -s build && git commit -am $npm_package_version && git tag $npm_package_version && git push --tags"
+  },
+  "exports": {
+    "default": "./index.ts"
+  },
+  "dependencies": {
+    "tiyi-core": "workspace:^0.0.1",
+    "tiyi-core-yang": "workspace:^0.0.1"
+  },
+  "devDependencies": {
+  },
+  "author": "biggerstar",
+  "license": "GPL-3.0-or-later",
+  "description": "太乙阴"
+}

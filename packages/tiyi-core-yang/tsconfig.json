@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "sourceMap": false,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "allowJs": false,
+    "strict": true,
+    "strictNullChecks": false,
+    "noImplicitThis": false,
+    "noUnusedLocals": false,
+    "resolveJsonModule": true,
+    "useDefineForClassFields": true,
+    "experimentalDecorators": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "removeComments": true,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "types": [
+        "src/types/index.d.ts"
+      ]
+    }
+  },
+  "include": [
+    "src",
+    "types",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

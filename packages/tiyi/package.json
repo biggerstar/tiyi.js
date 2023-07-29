@@ -1,0 +1,38 @@
+{
+  "name": "tiyi",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "build": "rimraf dist && npm run build:prod && npm run build:types && rimraf dist/temp",
+    "build:prod": "node scripts/build",
+    "build:types": "tail -n +1 src/types/extension.d.ts >> dist/$npm_package_name.d.ts",
+    "release": "npm run -s build && git commit -am $npm_package_version && git tag $npm_package_version && git push --tags"
+  },
+  "typings": "./dist/tiyi.d.ts",
+  "types": "./dist/tiyi.d.ts",
+  "exports": {
+    ".": {
+      "default": "./dist/tiyi.es.js",
+      "import": "./dist/tiyi.es.js",
+      "types": "./dist/tiyi.d.ts"
+    },
+    "./types/*": "./types/*"
+  },
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "dependencies": {
+    "tiyi-core": "workspace:^0.0.1",
+    "tiyi-core-history": "workspace:^0.0.1",
+    "tiyi-core-yang": "workspace:^0.0.1"
+  },
+  "keywords": [
+    "micro-frontend",
+    "tiyi"
+  ],
+  "author": "biggerstar",
+  "license": "GPL-3.0-or-later",
+  "description": "太乙微前端框架"
+}

@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "sourceMap": false,
+    "target": "es2015",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "allowJs": false,
+    "strict": true,
+    "noUnusedLocals": false,
+    "noImplicitAny": false,
+    "resolveJsonModule": true,
+    "useDefineForClassFields": false,
+    "noImplicitReturns": false,
+    "experimentalDecorators": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "removeComments": true,
+    "importHelpers": true,
+    "noResolve": false,
+    "inlineSourceMap": false,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "types": [
+        "src/types/index.d.ts"
+      ]
+    }
+  },
+  "include": [
+    "src",
+    "types/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+  ]
+}

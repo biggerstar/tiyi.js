@@ -1,0 +1,20 @@
+{
+  "name": "tiyi-router",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "release": "npm run -s build && git commit -am $npm_package_version && git tag $npm_package_version && git push --tags"
+  },
+  "exports": {
+    "default": "./index.ts"
+  },
+  "dependencies": {
+    "tiyi": "workspace:^0.0.1"
+  },
+  "devDependencies": {
+  },
+  "author": "biggerstar",
+  "license": "GPL-3.0-or-later",
+  "description": "太乙框架的资源共享中心"
+}

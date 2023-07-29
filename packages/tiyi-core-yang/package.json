@@ -1,0 +1,32 @@
+{
+  "name": "tiyi-core-yang",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "release:git": "npm run -s build && git commit -am $npm_package_version && git tag $npm_package_version && git push --tags"
+  },
+  "typings": "./dist/tiyi-core-yang.d.ts",
+  "types": "./dist/tiyi-core-yang.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/tiyi-core-yang.es.js",
+      "types": "./dist/tiyi-core-yang.d.ts"
+    },
+    "./types/*": "./types/*"
+  },
+  "files": [
+    "dist",
+    "types",
+    "package.json"
+  ],
+  "dependencies": {
+    "history-stack-manager": "0.1.1-beta",
+    "tiyi-core": "workspace:^"
+  },
+  "devDependencies": {
+  },
+  "author": "biggerstar",
+  "license": "GPL-3.0-or-later",
+  "description": "太乙阳"
+}

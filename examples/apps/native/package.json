@@ -1,0 +1,17 @@
+{
+  "name": "native",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite build && vite preview"
+  },
+  "description": "原生web程序",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "vite": "^4.1.0"
+  }
+}

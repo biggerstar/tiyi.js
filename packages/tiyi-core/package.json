@@ -1,0 +1,29 @@
+{
+  "name": "tiyi-core",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "release:git": "npm run -s build && git commit -am $npm_package_version && git tag $npm_package_version && git push --tags"
+  },
+  "files": [
+    "dist",
+    "types",
+    "package.json"
+  ],
+  "typings": "./dist/tiyi-core.d.ts",
+  "types": "./dist/tiyi-core.d.ts",
+  "module": "./dist/tiyi-core.es.js",
+  "exports": {
+    ".": {
+      "default": "./dist/tiyi-core.es.js",
+      "types": "./dist/tiyi-core.d.ts"
+    },
+    "./types/*": "./types/*"
+  },
+  "author": "biggerstar",
+  "license": "GPL-3.0-or-later",
+  "description": "太乙内核",
+  "devDependencies": {
+  }
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vite + Vue</title>
+  <script>
+    // console.log('from main index.html')
+  </script>
+  <script type="module" src="./src/main.js"></script>
+
+  <style name='test'>
+    iframe {
+      height: 80vh;
+      width: 40vw;
+    }
+
+    #app {
+      background: #94957C;
+      color: #535bf2;
+    }
+
+    /*#app + p{*/
+    /*  background:  pink;*/
+    /*  color:black;*/
+    /*}*/
+    .card {
+      background: #747bff;
+    }
+
+    #childDiv {
+      background: #535bf2;
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100px;
+      width: 100px;
+    }
+
+  </style>
+</head>
+<body>
+
+
+
+<!--<iframe src="https://localhost:11000/page#test1"></iframe>-->
+<!--<iframe src="chrome://newtab"></iframe>-->
+
+
+<div id="app"></div>
+
+
+<form>
+  <form action="/submit" method="post">
+    <div>
+      <input id="username-input" type="text" name="username"  >
+    </div>
+    <div>
+      <input id="password-input" type="password" name="password"  >
+    </div>
+    <div>
+      <input type="submit" value="提交">
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+
+</form>
+
+
+
+<a onclick="console.log(history)">显示history</a>
+<a href="http://www.baidu.com"> 百度</a>
+
+<div id="test" style="height: 120px;width: 100%">test</div>
+<a href="#test"> 改变hash</a>
+<div id="test1" style="height: 120px;width: 100%">test1</div>
+<a href="#test1"> 改变hash1</a>
+<div id="test2" style="height: 120px;width: 100%">test2</div>
+<a href="#test2"> 改变hash2</a>
+<div id="test3" style="height: 120px;width: 100%">test3</div>
+<a href="#test3"> 改变hash3</a>
+<!--//&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<div id="space" style="height: 1600px;width: 100%">space</div>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
