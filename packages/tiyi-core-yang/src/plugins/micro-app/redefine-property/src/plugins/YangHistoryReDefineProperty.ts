@@ -24,7 +24,7 @@ export class YangHistoryReDefineProperty extends MicroAppPropertyPlugin {
       const realUrl = resetUrlHost(url, location.href)
       url = realUrl ? realUrl : url
       if (type === "push") RP.rowPushState.call(appHistory, state, title, url)
-      else if (type === "push") RP.rowReplaceState.call(appHistory, state, title, url)
+      else if (type === "replace") RP.rowReplaceState.call(appHistory, state, title, url)
       if (!isCrossOrigin) {
         updateAppBaseTag(appWindow, self.belongApp.url)
       }

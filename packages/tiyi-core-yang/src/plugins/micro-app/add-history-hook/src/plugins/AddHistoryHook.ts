@@ -1,42 +1,38 @@
-import {getAppCache, getTagName, MicroApp, TiEventTargetType} from "tiyi-core";
-import {
-  TiHistoryOption
-} from 'types'
+import {getAppCache, MicroApp, TiEventTargetType} from "tiyi-core";
+import {TiHistoryOption} from 'types'
 import {HistoryOptions} from "history-stack-manager";
 import {MicroAppBuiltInPlugin} from "@/interface";
-import {
-  createAllowFocusAddHistory,
-  getEventTarget,
-  pushStateToAppWindow,
-  replaceStateToAppWindow
-} from "@/utils/common";
+import {pushStateToAppWindow, replaceStateToAppWindow} from "@/utils/common";
 
-/** 在iframe设置同源的时候会激活history的历史记录添加功能，比如通过srcdoc可以获得原生添加历史记录的功能，
+/**
+ * @deprecated
+ * 在iframe设置同源的时候会激活history的历史记录添加功能，比如通过srcdoc可以获得原生添加历史记录的功能，
  * 但是该功能可拓展性不大，这边直接设置about:blank后点击锚点或者设置location [!不会自动添加] 历史记录，
  * 这样的话使得我们可以手动控制历史记录的添加，
  * 以便后面实现原生历史记录添加效果(core yang内置)或者单应用自行管理自身历史记录的效果(计划插件实现)
  * */
-export class AddHistoryHook extends MicroAppBuiltInPlugin {
+// TODO  remove AddHistoryHook
+class AddHistoryHook extends MicroAppBuiltInPlugin {
   public priority = 1000
 
   public onConnect(event: TiEventTargetType<MicroApp>) {
-    return
-    const app = this.belongApp
-    const allowFocusAddHistory = createAllowFocusAddHistory(this.belongApp)
-    const {window: appWindow} = getAppCache(this.belongApp.id)
-    appWindow.addEventListener("focus", allowFocusAddHistory.allow)
-    appWindow.addEventListener("blur", allowFocusAddHistory.refuse)
-    appWindow.addEventListener("click", (ev) => {
-      const target = getEventTarget(ev)
-      if (allowFocusAddHistory.isAllow() && getTagName(target) === 'a') {
-        app.location.setHref((target as HTMLAnchorElement).href, {
-          isReload: false,
-          toAnchorPoint: false,
-          pushState: true
-        })
-        allowFocusAddHistory.refuse()
-      }
-    }, true)
+    // return
+    // const app = this.belongApp
+    // const allowFocusAddHistory = createAllowFocusAddHistory(this.belongApp)
+    // const {window: appWindow} = getAppCache(this.belongApp.id)
+    // appWindow.addEventListener("focus", allowFocusAddHistory.allow)
+    // appWindow.addEventListener("blur", allowFocusAddHistory.refuse)
+    // appWindow.addEventListener("click", (ev) => {
+    //   const target = getEventTarget(ev)
+    //   if (allowFocusAddHistory.isAllow() && getTagName(target) === 'a') {
+    //     app.location.setHref((target as HTMLAnchorElement).href, {
+    //       isReload: false,
+    //       toAnchorPoint: false,
+    //       pushState: true
+    //     })
+    //     allowFocusAddHistory.refuse()
+    //   }
+    // }, true)
   }
 
   public onLoad() {

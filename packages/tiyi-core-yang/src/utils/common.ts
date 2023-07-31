@@ -131,8 +131,8 @@ export function replaceStateToAppWindow(toWindow: WindowProxy, {state, title, ur
   }), '', '')
 }
 
-
-export function getHashScrollPosition(toWindow, hash) {
+/** 获取当前某个window中指定hash在当前页面的y轴位置 */
+export function getHashScrollPosition(toWindow:WindowProxy, hash:string) {
   let targetTag = toWindow.document.getElementById(hash.replace('#', ''))
   if (targetTag) {  // 有找到targetTag说明要跳转到该锚点
     const rect = targetTag['getBoundingClientRect']()
@@ -141,7 +141,7 @@ export function getHashScrollPosition(toWindow, hash) {
   }
 }
 
-export function scrollToHashPosition(toWindow, hash) {
+export function scrollToHashPosition(toWindow:WindowProxy, hash:string) {
   const pos = getHashScrollPosition(toWindow, hash)
   if (isNumber(pos)) toWindow.scroll(0, pos)
 }

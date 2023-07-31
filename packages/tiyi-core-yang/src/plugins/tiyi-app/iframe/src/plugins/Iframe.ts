@@ -12,6 +12,7 @@ import {
   setAppCache,
   setMicroApp,
   TiError,
+  TiURIError,
   TIYI,
   tryDoCatch,
 } from "tiyi-core"
@@ -104,8 +105,8 @@ export function doc(html: string) {
 }
 
 /** 获取远程html并加载到子应用的dom中 */
-export function goto(url: string) {
-  if (!url) return URIError('goto:未传入url参数')
+export function goto(url: string): void {
+  if (!url) return TiURIError('goto:未传入url参数')
   const app: MicroApp = this
   if (!app.url) { // 正常是第一次加载未指定完整的url，比如/aa/bb等形式，则以主应用url作为基准地址,若是完整地址则直接赋值给app.url
     if (isFullUrl(url)) app.url = url
@@ -113,7 +114,15 @@ export function goto(url: string) {
   }
   //-----------------------------------------------------------
   const {iframe, window: appWindow} = getAppCache(app.id)
+  //-----------------------------------------------------------
   if (appWindow) appWindow.stop() // && clearAllTimer(window)
+
+  // if (url.startsWith('#')) {
+  //   appWindow.location.hash = url
+  //   return
+  // } else {
+  //   if (appWindow) appWindow.stop() // && clearAllTimer(window)
+  // }
   //-----------------------------------------------------------
   const ev = app.executeHook('goto', url)   // 插件里面直接修改app.url或者事件对象的data，后面请求的url就会用app.url，可以用来做代理,后面考虑优化逻辑
   const {data: newUrl} = ev
@@ -139,8 +148,6 @@ export function goto(url: string) {
       console.error(error);
       // TODO insert error page to dom
     })
-
-
 }
 
 /** 将子应用置空销毁重置到纯净环境

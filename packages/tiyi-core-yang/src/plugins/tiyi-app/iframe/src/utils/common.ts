@@ -54,7 +54,7 @@ function initIframeDom(iframeWindow: Window) {
 }
 
 /** [只在origin模式下生效] 停止对iframe的加载.microSleep越大则主应用内容污染子应用的概率越小，但是相应的初始化时间也会长点(在设置成20时测试基本不会加载到主页面内容)，时间差不多在25ms左右 */
-async function stopLoading(iframeWindow: Window, pure: boolean = false) {
+async function stopLoading(iframeWindow: Window, pure: boolean = false):Promise<void> {
   // console.time('loadTime')
   let cont = 0
   const oldDoc = iframeWindow.document

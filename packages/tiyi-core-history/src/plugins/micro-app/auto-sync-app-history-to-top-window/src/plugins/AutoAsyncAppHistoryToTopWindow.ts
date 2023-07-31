@@ -10,7 +10,7 @@ function generateAllAppState() {
   console.log(allMicroAppCache);
 
   for (const appName in allMicroAppCache) {
-    const app =  getMicroApp(appName)
+    const app = getMicroApp(appName)
     const {window} = allMicroAppCache[appName]
     const appHistory = window.history
     // console.log(appHistory);
@@ -32,27 +32,33 @@ export class AutoAsyncAppHistoryToTopWindow extends MicroAppBuiltInPlugin {
 
   public onConnect(event) {
     const self = this
+    const topHistory = window.history
     const appWindow = this.window
     const appHistory = this.window.history
-
+    const appLocation = this.belongApp.location
+    let count = 1
     // console.log(appWindow);
     const rowPushState = appHistory.pushState
     const rowReplaceState = appHistory.replaceState
     // console.log(rowPushState);
     // console.log(rowReplaceState);
 
-
-    appHistory.pushState = function (state: any, title: string, url: string) {
-      // console.log(self.belongApp.id, 'pushState', state, title, url);
-      rowPushState.call(appHistory, state, title, url)
+    this.window.addEventListener("popstate", (ev) => {
+      // console.log(topHistory);
       console.log(generateAllAppState());
-    }
+    })
 
-    appHistory.replaceState = function (state: any, title: string, url: string) {
-      // console.log(self.belongApp.id, 'replaceState', state, title, url);
-      rowReplaceState.call(appHistory, state, title, url)
-      console.log(generateAllAppState());
-    }
+    // appHistory.pushState = function (state: any, title: string, url: string) {
+    //   // console.log(self.belongApp.id, 'pushState', state, title, url);
+    //   rowPushState.call(appHistory, state, title, url)
+    //   // console.log(generateAllAppState());
+    // }
+    //
+    // appHistory.replaceState = function (state: any, title: string, url: string) {
+    //   console.log(self.belongApp.id, 'replaceState', state, title, url);
+    //   rowReplaceState.call(appHistory, state, title, url)
+    //   // console.log(generateAllAppState());
+    // }
 
 
   }

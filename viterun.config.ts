@@ -80,7 +80,11 @@ export default defineConfig({
       watch: {},
     },
     sourcemap: {
-      sourcemap: true
+      rollupOptions:{
+        output:{
+          sourcemap:true
+        }
+      }
     },
     minify: {
       minify: true

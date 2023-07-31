@@ -13,3 +13,4 @@ export * from "./node-processors"
 export * from './redirect-anchor-href'
 export * from './add-history-hook'
 export * from './sync-app-base-tag-url'
+export * from './reset-hash-click-misalignment'

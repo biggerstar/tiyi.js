@@ -88,9 +88,9 @@ console.log('app', app);
 const app1 = createMicroApp()
 // app.use(createCoreYin())
 app1.mount('#ti-app1')
-app1.goto("https://localhost:12000/#test1")
+// app1.goto("https://localhost:12000/#test1")
+app1.goto("https://localhost:11000/page3")
 console.log('app1', app1);
-
 
 
 // const app2 = createMicroApp()
@@ -103,9 +103,6 @@ console.log('app1', app1);
 window.addEventListener("popstate", (ev) => {
   console.log('parent popstate', ev);
 })
-
-
-
 
 
 // const createStopLoadScriptNode = () => {
