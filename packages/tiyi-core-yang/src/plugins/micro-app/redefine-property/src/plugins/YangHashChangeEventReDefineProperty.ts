@@ -3,6 +3,7 @@ import {MicroAppPropertyPlugin} from "@/interface";
 export class YangHashChangeEventReDefineProperty extends MicroAppPropertyPlugin {
   /** 将子应用中的域about:blank带hash的hash提取出来并转成当前环境域下合适的url */
   public toLocalHash4EnvHref(url: string) {
+    console.log(url);
     const originalUrlInfo = new URL(url)
     const newUrlInfo = new URL(this.belongApp.location.href)
     newUrlInfo.hash = originalUrlInfo.hash
@@ -15,6 +16,7 @@ export class YangHashChangeEventReDefineProperty extends MicroAppPropertyPlugin 
     this.addRules({
       oldURL: {
         get() {
+          console.log(22222222,RP['getter_oldURL'].call(this));
           return self.toLocalHash4EnvHref(RP['getter_oldURL'].call(this))
         }
       },
