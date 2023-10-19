@@ -1,6 +1,6 @@
-import {PluginEntry} from "@/interface";
+import {MicroApp, PluginEntry} from "@/interface";
 
-export class MicroAppPlugin extends PluginEntry<MicroAppPlugin> {
+export class MicroAppPlugin extends PluginEntry<MicroApp> {
 }
 
 

@@ -5,7 +5,6 @@ import * as MicroApps from './micro-app'
 export * from './tiyi-app'
 export * from './micro-app'
 //---------------------------------------------------
-
 export const TiYiPlugins = {
   install: (app: TiYiApp, ...args: any[]) => Object.values(TiYiApps).forEach(plugin => app.use(plugin, ...args))
 }

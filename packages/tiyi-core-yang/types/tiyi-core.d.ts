@@ -15,6 +15,7 @@ import {
   TiYiApp,
   TiYiPlugin
 } from "tiyi-core"
+import {html} from "@/plugins/tiyi-app/iframe/src";
 
 
 declare module 'tiyi-core' {
@@ -60,14 +61,11 @@ declare module 'tiyi-core' {
     /** 销毁子应用 TODO feat */
     destroy(): this;
 
-    /** 将一段文本加载到子应用中，运行后会重置子应用到纯净环境，之后将文本载入 */
-    doc(text: string): this;
-
     /** 子应用指定某个url,框架会自动加载该网页数据并渲染 */
     goto(url: string): this
 
     /** 外部直接手动加载html, 支持纯文本,普通函数,异步函数 */
-    html: string | Function | ((args: any[]) => Promise<any>);
+    html: string | Function | ((...args: any[]) => Promise<any>);
     /** 子应用唯一ID */
     readonly id: string;
     /** 为子应用伪造的location对象，该对象会被proxyWindow或者proxyDocument代理返回出去作为子应用运行环境中的location */
@@ -93,7 +91,6 @@ declare module 'tiyi-core' {
     onMicroAppConnect?(event: TiEventTargetType<TiYiApp, MicroApp>): void
 
     /** 微应用销毁的时候触发  */
-
     onMicroAppDestroy?(event: TiEventTargetType<TiYiApp, MicroApp>): void
 
     /** 浏览器前进的时候触发  */
@@ -117,12 +114,7 @@ declare module 'tiyi-core' {
      *  */
     onGoto?(event?: TiEventTargetType<MicroApp, string>): void;
 
-    /**
-     * 监听app.doc 函数运行和其前往的新地址，能获取到子应用的window，但是不能获得最新document
-     *  */
-    onDoc?(event?: TiEventTargetType<MicroApp, string>): void;
-
-    /** 子应用的连接事件，一般是运行app.doc或者app.goto函数后连接到子应用window中触发，能获取到最新的window或者document  */
+    /** 子应用的连接事件，运行app.html 或者app.goto函数后在连接到子应用window中的时候触发，能获取到最新的window或者document  */
     onConnect?(event?: TiEventTargetType<MicroApp>): void;
 
     /** 加载文本或者html到子应用中  */

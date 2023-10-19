@@ -1,1 +1,1 @@
-export * from './plugins/AutoAsyncAppHistoryToTopWindow'
+export * from './plugins/AutoSyncAppHistoryToTopWindow'

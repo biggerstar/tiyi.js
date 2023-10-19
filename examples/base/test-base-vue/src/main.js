@@ -1,6 +1,7 @@
 import {createApp} from 'vue'
 import App from './App.vue'
-import {createMicroApp, TIYI} from 'tiyi'
+import {createMicroApp, TIYI,getMicroApp} from 'tiyi'
+// import {createShareCenter} from 'tiyi-share'
 
 createApp(App).use(function () {
 
@@ -82,14 +83,13 @@ const app = createMicroApp()
 // app.use(createCoreYin())
 // app.goto("https://localhost:11000/aa/")
 app.mount('#ti-app')
-app.goto("https://localhost:11000/page2")
+app.goto("https://localhost:11000/page2#test1")
 console.log('app', app);
-
 const app1 = createMicroApp()
 // app.use(createCoreYin())
 app1.mount('#ti-app1')
 // app1.goto("https://localhost:12000/#test1")
-app1.goto("https://localhost:11000/page3")
+app1.goto("https://localhost:11000/page3#test2")
 console.log('app1', app1);
 
 

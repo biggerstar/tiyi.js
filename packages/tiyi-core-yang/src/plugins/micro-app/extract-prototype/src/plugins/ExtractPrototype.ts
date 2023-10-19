@@ -6,7 +6,7 @@ import {MicroAppBuiltInPlugin} from "@/interface";
  *  RPS: row-prototype  未加工处理之前的原型数据
  * */
 export class ExtractPrototype extends MicroAppBuiltInPlugin {
-  public priority = 10
+  public priority = 2000
   public RPS: object = {}
 
   public onConnect() {

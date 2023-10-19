@@ -1,7 +1,7 @@
-import {getAppCache, isNumber, isString, TiTypeError, TiURIError} from "tiyi-core"
+import {isNumber, TiTypeError, TiURIError} from "tiyi-core"
 import {SetHrefOptions} from "types";
 import {MicroAppPropertyPlugin} from "@/interface";
-import {getHashScrollPosition, isOnlyChangeHash} from "@/utils/common";
+import {scrollToHashPosition} from "@/utils/common";
 
 /** 注意点: 在能接受hash赋值的location下如果有hash任何情况不会引起页面刷新,且会改变当前hash的只有hash和href字段
  *  且#号后面内容不管是啥都是hash，比如#号后面还有search或者pathname都会被归为hash而不会解析成对应字段
@@ -55,35 +55,46 @@ export class YangLocationReDefineProperty extends MicroAppPropertyPlugin {
    * */
   public setHref(href, {
     isReload = null,
-    toAnchorPoint = true,
     checkSameHost = true,
+    scrollY = null,
+    pushState = false,
+    replaceState = false,
     popstate = false,
-    pushState = false
+    hashchange = false,
+    scrollToHash = false
   }: Partial<SetHrefOptions> = {}) {
     href = String(href).trim() // 处理传入数字pathname路径情况
     const newLocation = new URL(href, this.fakeLocation.href)
+    const appWindow = this.window
     const oldHref = this.fakeLocation.href
     const newHref = newLocation.href
+    const appURL = this.belongApp.url
     // console.log(oldHref, newHref);
     //--------------------------------------------------------
     /** 检测是否同源 */
     if (checkSameHost && (newLocation.origin !== this.fakeLocation.origin)) return TiURIError(href + '\thref不能成功设置到域\t' + this.fakeLocation.origin + '\t中')
     //--------------------------------------------------------
-    // if (toAnchorPoint) {
-    //   const onlyChangeHash = isOnlyChangeHash(oldHref, newHref)
-    //   // console.log(onlyChangeHash);
-    //   if (pushState) this.window.location.hash = href
-    //   if (onlyChangeHash || href.startsWith('#')) {  // 如果是开始goto或者点击a标签，hash开头的url和当前url一致只是hash变了，则跳转锚点
-    //     isReload = false  // 只改变了hash不会进行刷新
-    //     // if (newLocation.hash !== this.fakeLocation.hash) pushState = true  // toAnchorPoint(必要条件)下只改变hash会添加历史记录
-    //     if (popstate) this.patchPopstateEvent()
-    //     scrollY = getHashScrollPosition(this.window, newLocation.hash)
-    //   }
-    // }
-    // // //--------------------------------------------------------
-    // if (isNumber(scrollY)) {  // 顺序要在添加历史记录之前，先滚动到该位置，之后历史记录添加的时候会将该位置记录
-    //   this.window.scroll(0, scrollY)
-    // }
+    //  pushState > popstate >  hashchange > scrollTo
+
+
+    if (replaceState) appWindow.history.replaceState.call(appWindow.history, this.window.history.state, '', newHref)
+    if (pushState) appWindow.history.pushState.call(appWindow.history, null, '', newHref)
+
+    if (popstate) appWindow.dispatchEvent(new appWindow['PopStateEvent']('popstate'))
+    const isStrictChangeHash = newLocation.hash !== (new URL(this.belongApp.url).hash)
+    if (isStrictChangeHash && hashchange) {
+      appWindow.dispatchEvent(new appWindow['HashChangeEvent']('hashchange', {
+        oldURL: appURL,
+        newURL: newHref
+      }))
+    }
+    if (scrollToHash) scrollToHashPosition(this.window, newLocation.hash)  // 必须在pushState后面
+    if (isNumber(scrollY)) this.window.scroll(0, scrollY)  // 顺序要在添加历史记录之前，先滚动到该位置，之后历史记录添加的时候会将该位置记录
+
+
+    // console.log(arguments);
+
+    //--------------------------------------------------------
 
 
     //

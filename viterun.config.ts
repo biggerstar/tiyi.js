@@ -39,6 +39,18 @@ export default defineConfig({
         ['types']
       ]
     },
+    'tiyi-core-history': {
+      build: [
+        ['es', 'tiyi_core_history_external'],
+        ['umd', 'minify']
+      ],
+      dev: [
+        ['es', 'tiyi_core_history_external', 'watch', 'sourcemap']
+      ],
+      types: [
+        ['types']
+      ]
+    },
     'tiyi': {
       build: [
         ['es', 'tiyi_external'],
@@ -80,9 +92,9 @@ export default defineConfig({
       watch: {},
     },
     sourcemap: {
-      rollupOptions:{
-        output:{
-          sourcemap:true
+      rollupOptions: {
+        output: {
+          sourcemap: true
         }
       }
     },
@@ -97,6 +109,11 @@ export default defineConfig({
     tiyi_external: {
       rollupOptions: {
         external: ['tiyi-core', 'tiyi-core-yang', 'tiyi-core-history']
+      }
+    },
+    tiyi_core_history_external: {
+      rollupOptions: {
+        external: ['tiyi-core', 'tiyi-core-yang']
       }
     },
   },

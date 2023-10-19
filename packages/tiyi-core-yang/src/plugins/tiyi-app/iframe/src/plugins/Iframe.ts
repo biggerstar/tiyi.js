@@ -17,8 +17,8 @@ import {
   tryDoCatch,
 } from "tiyi-core"
 import {resetIframeSandboxEnv} from "../utils/common";
-import {isTiYiAppEnv} from "@/utils/common";
-import {__TI_APP__} from "@/constant";
+import {isOnlyChangeHash, isTiHistory, isTiYiAppEnv} from "@/utils/common";
+import {__TI_APP__, __TI_HISTORY__} from "@/constant";
 
 export function mount(target: HTMLElement | string): MicroApp {
   const app: MicroApp = this
@@ -92,11 +92,11 @@ export function mount(target: HTMLElement | string): MicroApp {
 
 
 /** 外部设置的html函数或者文本自动识别并调用_loadHTML函数进行加载 */
-export function doc(html: string) {
+export function html(html: string | Function | ((args: any[]) => Promise<any>)) {
   const app: MicroApp = this
   if (!app.url) app.url = location['href']  // 正常是第一次加载,如果之前没有使用goto指定过url，则默认使用和主应用的url作为子应用的基准地址
   connect(app.id).then(() => {
-    const {data: newHtml} = app.executeHook('doc', html)
+    const {data: newHtml} = app.executeHook('loadHTML', html)
     if (isString(newHtml)) app.executeHook('loadHTML', html)
     else if (isAsyncFunction(newHtml)) (newHtml as Function)().then((text: string) => app.executeHook('loadHTML', text))  // 异步函数也是函数,这里判断优先级要在前面
     else if (isFunction(newHtml)) app.executeHook('loadHTML', (newHtml as Function)())
@@ -108,7 +108,8 @@ export function doc(html: string) {
 export function goto(url: string): void {
   if (!url) return TiURIError('goto:未传入url参数')
   const app: MicroApp = this
-  if (!app.url) { // 正常是第一次加载未指定完整的url，比如/aa/bb等形式，则以主应用url作为基准地址,若是完整地址则直接赋值给app.url
+  let firstLoad = !app.url
+  if (firstLoad) { // 正常是第一次加载未指定完整的url，比如/aa/bb等形式，则以主应用url作为基准地址,若是完整地址则直接赋值给app.url
     if (isFullUrl(url)) app.url = url
     else app.url = new URL(url, location.href).href
   }
@@ -116,13 +117,7 @@ export function goto(url: string): void {
   const {iframe, window: appWindow} = getAppCache(app.id)
   //-----------------------------------------------------------
   if (appWindow) appWindow.stop() // && clearAllTimer(window)
-
-  // if (url.startsWith('#')) {
-  //   appWindow.location.hash = url
-  //   return
-  // } else {
   //   if (appWindow) appWindow.stop() // && clearAllTimer(window)
-  // }
   //-----------------------------------------------------------
   const ev = app.executeHook('goto', url)   // 插件里面直接修改app.url或者事件对象的data，后面请求的url就会用app.url，可以用来做代理,后面考虑优化逻辑
   const {data: newUrl} = ev
@@ -133,8 +128,30 @@ export function goto(url: string): void {
   const newBaseURL = urlInfo.origin + urlInfo.pathname
   // console.log(nowBaseURL, newBaseURL, !isTiYiAppEnv(window));
   if (nowBaseURL === newBaseURL && !isTiYiAppEnv(window)) return RecursionAppPageBlocked(app.url)
-  app.url = urlInfo.href
   // ---------------------------------------------
+  console.log(firstLoad, isOnlyChangeHash(urlInfo.href, app.url, false), urlInfo.href, app.url);
+  if (!firstLoad && isOnlyChangeHash(urlInfo.href, app.url, false)) {  // dom已存在，且只改变hash则跳转hash
+    app.location.setHref(urlInfo.hash, {
+      scrollToHash: true,
+      isReload: false,
+    })
+    return
+  }
+  if (!newUrl.startsWith('about:blank')) app.url = urlInfo.href
+  app.use({  // 如果加载的url中存在hash，则在dom加载完成后跳转到指定hash
+    onLoad() {
+      if (urlInfo.hash) {
+        const isPushState = !isTiHistory(history[__TI_HISTORY__])
+        setTimeout(() => {  // TODO  处理实现正确的load逻辑，该处优化可去除定时器
+          app.location.setHref(urlInfo.href, {
+            scrollToHash: true,
+            isReload: false,
+            pushState: isPushState,
+          })
+        })
+      }
+    }
+  })
   fetchText(app.url)
     .then((html: string | null) => {  // 只有获取到了html资源后再重载dom，否则还是显示之前的界面
       connect(app.id).then(() => {
@@ -178,4 +195,3 @@ async function connect(appName: string) {
   app.executeHook('load') // 成功连接,发起通知
   // TODO  dom load, 当dom load成功后执行锚点跳转
 }
-

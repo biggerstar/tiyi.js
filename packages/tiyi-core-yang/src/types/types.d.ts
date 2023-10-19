@@ -35,9 +35,15 @@ export type SetHrefOptions = {
   /** 是否触发popstate事件
    * @default false
    * */
-  popstate?: TiHistoryOption | boolean
+  popstate?: boolean
+  /** 是否触发hashchange事件
+   * @default false
+   * */
+  hashchange?: boolean
   /** 滚动至指定Y轴位置 */
   scrollY?: number
+  /** 滚动至指定hash位置 */
+  scrollToHash?: boolean
 }
 
 

@@ -7,7 +7,11 @@
     "release": "npm run -s build && git commit -am $npm_package_version && git tag $npm_package_version && git push --tags"
   },
   "exports": {
-    "default": "./index.ts"
+    ".": {
+      "import": "./dist/tiyi-core-history.es.js",
+      "types": "./dist/tiyi-core-history.d.ts"
+    },
+    "./types/*": "./types/*"
   },
   "dependencies": {
     "tiyi-core": "workspace:^0.0.1",

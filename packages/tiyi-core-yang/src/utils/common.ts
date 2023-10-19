@@ -60,7 +60,7 @@ export function resetEventProtoRef(event, Event) {
   event['__proto__'] && (event['__proto__']['__proto__'] = Event.prototype)   // 重定义原型链到子应用Event对应原型
 }
 
-export const isTiHistory = (state:any): state is TiHistoryOption => state && isObject(state) && state?.type === __TI_HISTORY__
+export const isTiHistory = (state: any): state is TiHistoryOption => state && isObject(state) && state?.type === __TI_HISTORY__
 
 export function getEventTarget(event: Event): Element {
   return (event.target || event['srcElement']) as Element
@@ -70,16 +70,21 @@ export function toTiHistory(option: Partial<TiHistoryOption> | { action?: string
   const baseHistory = {
     type: __TI_HISTORY__
   }
-  return Object.assign(baseHistory, option)
+  return JSON.parse(JSON.stringify(Object.assign(baseHistory, option)))
 }
 
 export function toNoHashUrlPath(url: string): string {
   return url.split('#').shift() as string
 }
 
-export function isOnlyChangeHash(oldHref: string, newHref: string): boolean {
+/** 检查是否只改变hash
+ * @param oldHref
+ * @param newHref
+ * @param {boolean} strict 是否严格规定必须改变hash，默认为false，此时oldHref 和 newHref 相等也算改变hash
+ * */
+export function isOnlyChangeHash(oldHref: string, newHref: string, strict: boolean = true): boolean {
   if (!oldHref.includes('#') && !newHref.includes('#')) return false  // 都不包含hash就直接返回false
-  return toNoHashUrlPath(oldHref) === toNoHashUrlPath(newHref)
+  return (strict ? oldHref !== newHref : true) && toNoHashUrlPath(oldHref) === toNoHashUrlPath(newHref)
 }
 
 export function createAllowFocusAddHistory(app: MicroApp) {
@@ -105,7 +110,12 @@ export function createAllowFocusAddHistory(app: MicroApp) {
 }
 
 
-export function pushStateToAppWindow(toWindow: WindowProxy, {state, title, url, scrollY}: Partial<HistoryOptions> = {}) {
+export function pushStateToAppWindow(toWindow: WindowProxy, {
+  state,
+  title,
+  url,
+  scrollY
+}: Partial<HistoryOptions> = {}) {
   const app = toWindow[__TI_APP__]
   window.history.pushState(toTiHistory({
     appName: app.id,
@@ -117,7 +127,12 @@ export function pushStateToAppWindow(toWindow: WindowProxy, {state, title, url, 
   }), '', '')
 }
 
-export function replaceStateToAppWindow(toWindow: WindowProxy, {state, title, url, scrollY}: Partial<HistoryOptions> = {}) {
+export function replaceStateToAppWindow(toWindow: WindowProxy, {
+  state,
+  title,
+  url,
+  scrollY
+}: Partial<HistoryOptions> = {}) {
   console.log(scrollY);
 
   const app = toWindow[__TI_APP__]
@@ -132,7 +147,7 @@ export function replaceStateToAppWindow(toWindow: WindowProxy, {state, title, ur
 }
 
 /** 获取当前某个window中指定hash在当前页面的y轴位置 */
-export function getHashScrollPosition(toWindow:WindowProxy, hash:string) {
+export function getHashScrollPosition(toWindow: WindowProxy, hash: string) {
   let targetTag = toWindow.document.getElementById(hash.replace('#', ''))
   if (targetTag) {  // 有找到targetTag说明要跳转到该锚点
     const rect = targetTag['getBoundingClientRect']()
@@ -141,7 +156,7 @@ export function getHashScrollPosition(toWindow:WindowProxy, hash:string) {
   }
 }
 
-export function scrollToHashPosition(toWindow:WindowProxy, hash:string) {
+export function scrollToHashPosition(toWindow: WindowProxy, hash: string) {
   const pos = getHashScrollPosition(toWindow, hash)
   if (isNumber(pos)) toWindow.scroll(0, pos)
 }
@@ -173,6 +188,10 @@ export function updateAppBaseTag(toWindow: WindowProxy, url: string) {
   }
 }
 
+/** 重置url的host
+ * @param {string} from url string
+ * @param {string} to url string
+ * */
 export function resetUrlHost(from: string, to: string) {
   const fromLocation = new URL(from, to)
   const toLocation = new URL(to)

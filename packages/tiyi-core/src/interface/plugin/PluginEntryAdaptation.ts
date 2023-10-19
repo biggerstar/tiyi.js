@@ -29,7 +29,7 @@ export class PluginEntryAdaptation {
       if (!self.insPlugin) {
         self.tiyiAppPlugins.forEach(plugin => TIYI.use(plugin, ...pluginConfig)) // TIYI插件多次运行安装入口函数在use中只会被安装一次
         self.insPlugin = {
-          install(app:TiYiPlugin) {
+          install(app) {
             if (app === TIYI) {   // (全局所有生效)全局安装应用入口 TIYI.use
               TIYI.use({
                 onMicroAppConnect({data: microApp}: TiEventTargetType<TiYiApp, MicroApp>) {

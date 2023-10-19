@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "esnext",
     "module": "esnext",
     "lib": ["esnext", "dom"],
     "declaration": true,
-    "outDir": "lib",
-    "rootDir": "src",
+    "outDir": "dist",
     "importHelpers": true,
     "downlevelIteration": true,
     "strict": true,
@@ -23,16 +22,19 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+    }
   },
   "include": [
     "src",
-    "typings"
+    "types"
   ],
   "exclude": [
     "node_modules",
-    "dev",
-    "src/__tests__"
   ],
   "compileOnSave": false
 }
