@@ -5,6 +5,7 @@ import {BaseConfigReturnType, defineConfig, ViteRunHandleFunctionOptions, viteRu
 import vue from '@vitejs/plugin-vue'
 import createCopyDts from "vite-plugin-copy-dts";
 import dts from "vite-plugin-dts";
+import {viteCertsPlugin} from '@biggerstar/localhost-certs'
 
 export default defineConfig({
   baseConfig: getBaseConfig,
@@ -67,10 +68,10 @@ export default defineConfig({
       dev: ['10000'],
     },
     'native': {
-      dev: ['11000']
+      dev: ['11000', 'https']
     },
     'vue3': {
-      dev: ['12000']
+      dev: ['12000', 'https']
     },
   },
   mode: {
@@ -159,7 +160,10 @@ export default defineConfig({
           },
         },
       ]
-    }
+    },
+    https: [
+      viteCertsPlugin()
+    ]
   }
 })
 

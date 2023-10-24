@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@biggerstar/localhost-certs':
+        specifier: ^1.1.1
+        version: 1.1.1
     devDependencies:
       '@babel/preset-env':
         specifier: ^7.22.9
@@ -1362,6 +1366,10 @@ packages:
       '@babel/helper-string-parser': 7.22.5
       '@babel/helper-validator-identifier': 7.22.5
       to-fast-properties: 2.0.0
+
+  /@biggerstar/localhost-certs@1.1.1:
+    resolution: {integrity: sha512-Py/wmWg7g6s19sAn/94iajd+YdXeGvBpMYy4TaBZY+IVMnYVgQQcR8h+EkonWqT4SnNpDX6jxMHZXiHU3AJ/uw==}
+    dev: false
 
   /@esbuild/android-arm64@0.17.19:
     resolution: {integrity: sha512-KBMWvEZooR7+kzY0BtbTQn0OAYY7CsiydT63pVEaPtVYF0hXbUaOyZog37DKxK7NF3XacBJOpYT4adIJh+avxA==}
