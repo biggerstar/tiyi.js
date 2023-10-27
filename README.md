@@ -85,9 +85,9 @@ app.use(createCoreYin())   // mount前添加插件
 ### 使用广播
 
 ```ts
-app1.broadcast.$emit('customEvnentName',{data:'xxx'})
+app1.broadcast.$emit('customEventName',{data:'xxx'})
 
-app2.broadcast.$on('customEvnentName',（data）=>{})
+app2.broadcast.$on('customEventName',（data）=>{})
 ```
 
 ### 使用bus父子通信
@@ -96,8 +96,8 @@ app2.broadcast.$on('customEvnentName',（data）=>{})
 import {getMicroApp} from 'tiyi'
 const app = getMicroApp('name')
 
-app.bus.$emit('customEvnentName',{data:'xxx'})
-app.bus.$on('customEvnentName',（data）=>{})
+app.bus.$emit('customEventName',{data:'xxx'})
+app.bus.$on('customEventName',（data）=>{})
 ```
 
 ### 全局API
